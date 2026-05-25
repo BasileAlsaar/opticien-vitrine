@@ -150,8 +150,9 @@
 }
 
 @layer utilities {
+  /* Eyebrow base — color is set at the usage site for proper light/dark contrast */
   .eyebrow {
-    @apply uppercase font-sans text-[11px] tracking-[0.22em] text-ink-soft;
+    @apply uppercase font-sans text-[11px] tracking-[0.22em];
     font-weight: 500;
   }
 

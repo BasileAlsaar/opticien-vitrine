@@ -74,17 +74,14 @@ export function VideoHero() {
         />
       </div>
 
-      {/* Content */}
+      {/* Content — Title slides up (signature), other elements SSR-visible for LCP */}
       <div className="relative h-full container-edge flex flex-col justify-end pb-20 md:pb-28 pt-24 md:pt-32">
-        <motion.p
-          initial={reduce ? false : { opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.7 }}
+        <p
           className="eyebrow"
-          style={{ color: "rgba(245,241,234,0.7)" }}
+          style={{ color: "rgba(245,241,234,0.75)" }}
         >
           Opticien indépendant · Paris VII
-        </motion.p>
+        </p>
 
         <h1
           className="mt-6 max-w-4xl font-serif text-ivory leading-[0.95]"
@@ -99,7 +96,7 @@ export function VideoHero() {
               className="inline-block"
               initial={reduce ? false : { y: "110%" }}
               animate={{ y: "0%" }}
-              transition={{ duration: 0.9, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.85, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             >
               L&apos;art de
             </motion.span>
@@ -109,29 +106,19 @@ export function VideoHero() {
               className="inline-block italic font-light"
               initial={reduce ? false : { y: "110%" }}
               animate={{ y: "0%" }}
-              transition={{ duration: 0.9, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.85, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
             >
               bien voir.
             </motion.span>
           </span>
         </h1>
 
-        <motion.p
-          initial={reduce ? false : { opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9, duration: 0.6 }}
-          className="mt-8 max-w-md text-ivory/85 text-base md:text-lg leading-relaxed"
-        >
+        <p className="mt-8 max-w-md text-ivory/90 text-base md:text-lg leading-relaxed">
           Une sélection de montures façonnées avec soin, un examen de vue
           mené sans précipitation. À deux pas du Bon Marché.
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={reduce ? false : { opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.05, duration: 0.6 }}
-          className="mt-10 flex flex-col sm:flex-row gap-4"
-        >
+        <div className="mt-10 flex flex-col sm:flex-row gap-4">
           <Link
             href="/contact"
             className="inline-flex items-center justify-center px-7 py-4 text-[12px] tracking-widest uppercase border border-ivory text-ivory hover:bg-ivory hover:text-ink transition-colors"
@@ -146,7 +133,7 @@ export function VideoHero() {
           >
             Voir les collections →
           </Link>
-        </motion.div>
+        </div>
       </div>
 
       {/* Scroll cue */}
