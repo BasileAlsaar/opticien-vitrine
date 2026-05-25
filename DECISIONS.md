@@ -7,15 +7,19 @@ décision non triviale.
 
 ## D-001 · Direction visuelle vidéo hero
 
-**Statut :** ⏳ en attente d'arbitrage
+**Statut :** ✅ tranché autrement — actif client fourni (2026-05-25)
 
-| Option | Briefing | Choix |
-|---|---|---|
-| A — Portrait éditorial | Homme 35-55 ans, acétate, regard qui dérive, pas de sourire, cohérent Cubitts/Garrett Leight | ☐ |
-| B — Portrait chaleureux | Sourire en coin, lumière naturelle, intérieur boisé/librairie | ☐ |
+Le client a livré directement `OPTIQUE.mp4` (4K, 13s, 36 Mo). Source
+d'origine non documentée mais propriété du client, hors périmètre Pexels.
+La question A vs B devient sans objet.
 
-Le script `scripts/fetch-media.ts` est paramétré pour interroger les
-queries correspondantes (`--direction=A` ou `B`).
+Encodages produits :
+- `public/video/hero.mp4` — H.264 1920×1080 CRF 24, sans audio, 2,5 Mo
+- `public/video/hero.webm` — VP9 CRF 32, 1,2 Mo (servi en priorité)
+- `public/video/hero-poster.jpg` — frame à 5s, 74 Ko
+
+Le script `scripts/fetch-media.ts` reste disponible si on a besoin
+d'autres vidéos plus tard.
 
 ---
 
