@@ -133,6 +133,18 @@ export const PRODUCTS: Product[] = [
   },
 ];
 
+export function getProduct(slug: string): Product | undefined {
+  return PRODUCTS.find((p) => p.slug === slug);
+}
+
+export function getRelated(slug: string, n = 3): Product[] {
+  const target = getProduct(slug);
+  if (!target) return [];
+  return PRODUCTS.filter(
+    (p) => p.slug !== slug && p.category === target.category,
+  ).slice(0, n);
+}
+
 export const BRANDS = [
   "Persol",
   "Lindberg",

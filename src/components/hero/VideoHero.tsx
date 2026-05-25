@@ -7,33 +7,26 @@ import { motion, useReducedMotion } from "motion/react";
 
 import { HERO_VIDEO } from "@/lib/media";
 
-// Détecte les viewports "mobile" pour ne pas charger la vidéo
-function useIsMobile(): boolean {
-  const [isMobile, setIsMobile] = useState<boolean | null>(null);
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 768px)");
-    setIsMobile(mq.matches);
-    const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
-  return isMobile === true;
-}
-
 export function VideoHero() {
   const reduce = useReducedMotion();
-  const isMobile = useIsMobile();
+  // SSR-safe: always render poster first. After mount, if desktop + motion OK, swap in video.
+  const [showVideo, setShowVideo] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (reduce || isMobile) return;
+    if (reduce) return;
+    const mq = window.matchMedia("(min-width: 769px)");
+    setShowVideo(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setShowVideo(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, [reduce]);
+
+  useEffect(() => {
+    if (!showVideo) return;
     const v = videoRef.current;
-    if (v) {
-      v.play().catch(() => {
-        /* autoplay blocked, fallback to poster */
-      });
-    }
-  }, [reduce, isMobile]);
+    if (v) v.play().catch(() => {});
+  }, [showVideo]);
 
   // 3 baselines candidates (commentées) — j'ai retenu la première.
   // 1. « L'art de bien voir »  ← retenue : sobre, classique, double sens optique + perception.
@@ -42,12 +35,21 @@ export function VideoHero() {
 
   return (
     <section className="relative h-hero w-full overflow-hidden bg-ink">
-      {/* Media layer */}
+      {/* Media layer — Image SSR, video progressively enhanced */}
       <div className="absolute inset-0">
-        {!isMobile && !reduce ? (
+        <Image
+          src={HERO_VIDEO.poster}
+          alt={HERO_VIDEO.alt}
+          fill
+          priority
+          fetchPriority="high"
+          sizes="100vw"
+          className="object-cover"
+        />
+        {showVideo ? (
           <video
             ref={videoRef}
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover"
             poster={HERO_VIDEO.poster}
             autoPlay
             muted
@@ -58,16 +60,7 @@ export function VideoHero() {
           >
             <source src={HERO_VIDEO.mp4} type="video/mp4" />
           </video>
-        ) : (
-          <Image
-            src={HERO_VIDEO.poster}
-            alt={HERO_VIDEO.alt}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-        )}
+        ) : null}
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-ink/45" aria-hidden />
         {/* Subtle vignette */}
@@ -87,7 +80,7 @@ export function VideoHero() {
           initial={reduce ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.7 }}
-          className="eyebrow text-ivory/70"
+          className="eyebrow"
           style={{ color: "rgba(245,241,234,0.7)" }}
         >
           Opticien indépendant · Paris VII

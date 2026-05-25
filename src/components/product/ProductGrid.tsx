@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 
 import { PRODUCTS } from "@/lib/products";
@@ -48,7 +49,9 @@ export function ProductGrid() {
               exit={reduce ? undefined : { opacity: 0, y: -8 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
-              <ProductCard product={p} />
+              <Link href={`/collections/${p.slug}`} className="block">
+                <ProductCard product={p} />
+              </Link>
             </motion.div>
           ))}
         </AnimatePresence>
