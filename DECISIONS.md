@@ -25,34 +25,55 @@ d'autres vidéos plus tard.
 
 ## D-002 · Attribution des marques sur les visuels Pexels
 
-**Statut :** ⏳ en attente d'arbitrage
+**Statut :** ✅ option (1) retenue — 2026-05-25
 
-**Problème** : Pexels ne propose pas de photos officielles des marques (Persol,
-Lindberg, Moscot, etc.). Associer un visuel Pexels générique à un nom de
-marque dans `lib/products.ts` constitue une fausse représentation
-commerciale (risque juridique).
+Refactor appliqué dans le commit `4a843b8` :
+- 12 produits renommés en série interne « Atelier № I-V », « Solaire
+  № I-IV », « Sur Mesure № I-III »
+- Type `Product` : `brand` retiré, `house: "Maison Lestrange"` ajouté
+- BrandStrip conservé en bandeau indépendant, légende « Quelques-unes
+  des maisons travaillées en boutique » + mention explicite que les
+  visuels présentés sont une composition typographique
+- Mentions Persol/Lindberg/Moscot/... retirées du texte longform
+  /maison et des keywords/descriptions meta
 
-| Option | Effet | Choix |
-|---|---|---|
-| (1) Effacer les marques sur les fiches produits, garder noms génériques (« Optique Atelier 12 », « Solaire № III ») ; le bandeau `BrandStrip` peut afficher la liste des marques avec un eyebrow « Maisons travaillées » | Refactor `lib/products.ts` : `brand` → `house: "Maison Lestrange"`, ajout `model: "Atelier 12"`. UX produit change peu (l'eyebrow devient le numéro de modèle) | ☐ |
-| (2) Déconnexion totale : grille produits = montures génériques, bandeau marques = liste indépendante non liée aux visuels | Plus radical. La carte produit perd son eyebrow marque, remplacé par catégorie ou rien | ☐ |
+Réversible quand les vrais packshots et accords commerciaux arriveront :
+il suffira d'ajouter `image: {...}` et de réintroduire `brand` dans le
+type. Le composant ProductCard détecte déjà la présence d'une image.
 
 ---
 
-## D-003 · État actuel des médias (à corriger)
+## D-003 · État actuel des médias (corrigé)
 
-**Statut :** ⚠️ contamination active en prod
+**Statut :** ✅ contamination éliminée — 2026-05-25 (commit `4a843b8`)
 
-Inventoriée par `grep` le 2026-05-25, branch `main` (commit `12b5c36`) :
+État final :
+- `src/lib/images.ts` → **vidé** (objet IMG vide en attente de vrais
+  visuels boutique)
+- `src/lib/products.ts` → **plus aucune URL Pexels**, les cartes produit
+  utilisent le placeholder typographique de `ProductCard`
+- `public/video/hero.{mp4,webm,jpg}` → **vidéo client OPTIQUE.mp4**
+  (cf. D-001), pas Pexels
+- Sections homepage (CollectionTeasers, SplitFeature) refondues en
+  composition typographique : numéros romains, chiffres clés, sans
+  aucune photo
+- /maison : 2 photos retirées, remplacées par bandeau « 14, rue de
+  Verneuil — Paris VII » typographique et longform sans visuel
+- /services : 1 photo retirée, remplacée par bandeau « Mar-Sam ·
+  10h30-19h · ... »
 
-- `src/lib/images.ts` : 9 photos Pexels avec IDs choisis sans API
-- `src/lib/products.ts` : 12 produits Pexels avec marques nommées (D-002)
-- `public/video/hero.mp4` : Pexels ID 3209828, sélectionné parce que curl 200, contenu non vérifié
-- `public/video/hero-poster.jpg` : extrait du fichier ci-dessus
+Vérification par grep en prod : 0 occurrence de `pexels` dans le HTML
+rendu de `/`, `/collections`, `/maison`.
 
-Action en attente : remplacement complet via le pipeline
-`scripts/fetch-media.ts` + sélection humaine + écriture
-`lib/media.generated.ts`.
+Réversibilité quand les vraies photos boutique arriveront :
+1. Déposer les fichiers dans `public/images/`
+2. Reconnecter dans `src/lib/images.ts` (déjà typé pour ça)
+3. Optionnel : ajouter `image: {...}` aux produits dans
+   `src/lib/products.ts` — `ProductCard` détecte automatiquement la
+   présence d'une image et bascule du placeholder à la photo.
+
+Pipeline Pexels (`scripts/fetch-media.ts`) reste disponible si on a
+besoin de visuels d'ambiance temporaires sourcés proprement via l'API.
 
 ---
 
