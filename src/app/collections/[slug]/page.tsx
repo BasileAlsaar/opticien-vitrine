@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Container } from "@/components/layout/Container";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { ProductCard } from "@/components/product/ProductCard";
-import { PRODUCTS, getProduct, getRelated } from "@/lib/products";
+import { PRODUCTS, getProduct, getRelated, type Product } from "@/lib/products";
 
-const CATEGORY_LABEL: Record<string, string> = {
+const CATEGORY_LABEL: Record<Product["category"], string> = {
   optique: "Optique",
   solaire: "Solaire",
   "sur-mesure": "Sur mesure",
@@ -25,7 +24,7 @@ export async function generateMetadata(
   const product = getProduct(slug);
   if (!product) return { title: "Pièce introuvable" };
   return {
-    title: `${product.name} — ${product.brand}`,
+    title: `${product.model} — ${product.house}`,
     description: `${product.shortNote} À partir de ${product.priceFrom} €. Disponible à l'essayage en boutique, 14 rue de Verneuil, Paris VII.`,
   };
 }
@@ -38,6 +37,7 @@ export default async function ProductPage(
   if (!product) notFound();
 
   const related = getRelated(slug, 3);
+  const num = product.model.split("№")[1]?.trim() ?? product.model.charAt(0);
 
   return (
     <>
@@ -60,47 +60,63 @@ export default async function ProductPage(
               Collections
             </Link>
             <span className="mx-3">·</span>
-            <span className="text-ink">{product.name}</span>
+            <span className="text-ink">{product.model}</span>
           </nav>
 
-          {/* Top split: image + fiche */}
+          {/* Top split: typographic visual + fiche */}
           <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
-            {/* Image XL */}
+            {/* Visual block (typographic placeholder until packshots) */}
             <FadeIn className="md:col-span-7">
-              <div className="relative aspect-square bg-cream overflow-hidden">
-                <Image
-                  src={product.image.src}
-                  alt={product.image.alt}
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, 60vw"
-                  className="object-cover"
-                />
-              </div>
-              {product.secondary ? (
-                <div className="mt-4 relative aspect-[4/3] bg-cream overflow-hidden">
-                  <Image
-                    src={product.secondary.src}
-                    alt={product.secondary.alt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 60vw"
-                    className="object-cover"
+              <div className="relative aspect-square bg-cream border border-line flex flex-col items-center justify-center text-center px-8 overflow-hidden">
+                {product.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={product.image.src}
+                    alt={product.image.alt}
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
-                </div>
-              ) : null}
+                ) : (
+                  <>
+                    <span
+                      className="font-serif text-ink-soft"
+                      style={{
+                        fontSize: "clamp(6rem, 22vw, 14rem)",
+                        fontWeight: 300,
+                        letterSpacing: "-0.05em",
+                        lineHeight: 0.85,
+                      }}
+                    >
+                      {num}
+                    </span>
+                    <span
+                      className="mt-6 eyebrow text-ink-soft"
+                      style={{ letterSpacing: "0.28em" }}
+                    >
+                      {product.house}
+                    </span>
+                  </>
+                )}
+              </div>
+
+              <p className="mt-4 text-xs text-ink-soft italic">
+                Visuel provisoire. Les packshots dédiés seront publiés avant
+                la mise en ligne définitive.
+              </p>
             </FadeIn>
 
             {/* Fiche */}
             <div className="md:col-span-5 md:pt-4">
               <FadeIn>
-                <p className="eyebrow text-accent">{product.brand}</p>
+                <p className="eyebrow text-accent">
+                  {CATEGORY_LABEL[product.category]}
+                </p>
               </FadeIn>
               <FadeIn delay={0.05}>
                 <h1
                   className="mt-4 font-serif text-5xl md:text-6xl lg:text-7xl text-ink"
                   style={{ letterSpacing: "-0.025em", fontWeight: 300 }}
                 >
-                  {product.name}
+                  {product.model}
                 </h1>
               </FadeIn>
 
@@ -115,7 +131,7 @@ export default async function ProductPage(
                 <dl className="mt-12 divide-y divide-line border-y border-line">
                   {[
                     ["Catégorie", CATEGORY_LABEL[product.category]],
-                    ["Maison", product.brand],
+                    ["Sélection", product.house],
                     ["Disponibilité", "En boutique, à l'essayage"],
                     ["Référence", product.slug],
                   ].map(([k, v]) => (
@@ -150,7 +166,7 @@ export default async function ProductPage(
                 <div className="mt-10 flex flex-col sm:flex-row gap-4">
                   <Link
                     href={`/contact?motif=Essayage&piece=${encodeURIComponent(
-                      `${product.brand} ${product.name}`,
+                      `${product.house} ${product.model}`,
                     )}`}
                     className="inline-flex items-center justify-center px-7 py-4 text-[12px] tracking-widest uppercase bg-ink text-ivory hover:bg-accent transition-colors"
                     style={{ letterSpacing: "0.22em" }}

@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 
 import { Container } from "@/components/layout/Container";
 import { FadeIn } from "@/components/motion/FadeIn";
-import { IMG } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -17,7 +15,7 @@ const SERVICES = [
     title: "Examen de vue",
     duration: "45 minutes",
     price: "55 €",
-    desc: "Examen complet en cabinet équipé d'un réfracteur Essilor APH 550. Mesures monoculaires et binoculaires, tests de proximité, conseils d'éclairage. Le compte rendu vous est remis sur papier.",
+    desc: "Examen complet en cabinet équipé d'un réfracteur. Mesures monoculaires et binoculaires, tests de proximité, conseils d'éclairage. Le compte rendu vous est remis sur papier.",
   },
   {
     n: "II",
@@ -38,7 +36,7 @@ const SERVICES = [
     title: "Tiers payant",
     duration: "Toutes mutuelles",
     price: "Selon contrat",
-    desc: "Tiers payant intégral avec la plupart des organismes complémentaires (Almerys, Itelis, Santéclair, Carte Blanche, Kalixia). Devis 100 % Santé fourni systématiquement.",
+    desc: "Tiers payant intégral avec la plupart des organismes complémentaires. Devis 100 % Santé fourni systématiquement.",
   },
 ];
 
@@ -66,18 +64,32 @@ export default function ServicesPage() {
         </Container>
       </section>
 
-      {/* Photo bandeau */}
-      <section className="pb-20 md:pb-28 bg-ivory">
+      {/* Bandeau typographique en remplacement du visuel atelier */}
+      <section className="pt-12 pb-20 md:pb-28 bg-ivory">
         <Container>
           <FadeIn>
-            <div className="relative aspect-[21/9] bg-line overflow-hidden">
-              <Image
-                src={IMG.lentille.src}
-                alt={IMG.lentille.alt}
-                fill
-                sizes="(max-width: 768px) 100vw, 90vw"
-                className="object-cover"
-              />
+            <div className="border-y border-line py-10 md:py-14 grid grid-cols-2 md:grid-cols-4 gap-y-10">
+              {[
+                { value: "Mar — Sam", label: "Ouvert" },
+                { value: "10h30 — 19h", label: "Horaires" },
+                { value: "Lundi", label: "Sur rendez-vous" },
+                { value: "Sans frais", label: "Ajustement à vie" },
+              ].map((item) => (
+                <div key={item.label} className="px-4 text-center">
+                  <p
+                    className="font-serif text-ink"
+                    style={{
+                      fontSize: "clamp(1.5rem, 3.5vw, 2.5rem)",
+                      fontWeight: 300,
+                      letterSpacing: "-0.02em",
+                      lineHeight: 1.05,
+                    }}
+                  >
+                    {item.value}
+                  </p>
+                  <p className="mt-3 eyebrow text-ink-soft">{item.label}</p>
+                </div>
+              ))}
             </div>
           </FadeIn>
         </Container>

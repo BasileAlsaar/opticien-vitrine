@@ -50,7 +50,7 @@ export default function MentionsLegalesPage() {
                 Crédits
               </h2>
               <p className="mt-3">
-                Visuels&nbsp;: Pexels (licence libre).
+                Vidéo et photos&nbsp;: propriété de Maison Lestrange.
                 <br />
                 Conception et réalisation&nbsp;: à compléter.
               </p>

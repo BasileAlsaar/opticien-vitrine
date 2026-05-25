@@ -1,14 +1,11 @@
-import Image from "next/image";
-
 import { Container } from "@/components/layout/Container";
 import { FadeIn } from "@/components/motion/FadeIn";
-import { IMG } from "@/lib/images";
 
 const PILLARS = [
   {
     n: "I",
     title: "Examen mené à part",
-    desc: "Cabinet d'examen équipé d'un réfracteur Essilor. Une demi-heure par patient, jamais moins.",
+    desc: "Cabinet d'examen équipé d'un réfracteur. Une demi-heure par patient, jamais moins.",
   },
   {
     n: "II",
@@ -22,20 +19,42 @@ const PILLARS = [
   },
 ];
 
+const STATS = [
+  { value: "12 m²", label: "Boutique" },
+  { value: "50", label: "Pièces présentées" },
+  { value: "45 min", label: "Durée d'un examen" },
+  { value: "À vie", label: "Service après-vente" },
+];
+
 export function SplitFeature() {
   return (
     <section className="bg-ivory py-32 md:py-44">
       <Container>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start">
+          {/* Left block — chiffres en grille, sans photo */}
           <FadeIn className="md:col-span-6 md:col-start-1">
-            <div className="relative aspect-[4/5] bg-line overflow-hidden">
-              <Image
-                src={IMG.atelier.src}
-                alt={IMG.atelier.alt}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
-              />
+            <div className="border-y border-line py-6 md:py-8">
+              <p className="eyebrow text-accent">La boutique en chiffres</p>
+              <dl className="mt-10 grid grid-cols-2 gap-y-12 gap-x-8">
+                {STATS.map((s) => (
+                  <div key={s.label}>
+                    <dt
+                      className="font-serif text-ink"
+                      style={{
+                        fontSize: "clamp(2.5rem, 5vw, 3.75rem)",
+                        fontWeight: 300,
+                        letterSpacing: "-0.025em",
+                        lineHeight: 1,
+                      }}
+                    >
+                      {s.value}
+                    </dt>
+                    <dd className="mt-3 eyebrow text-ink-soft">
+                      {s.label}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           </FadeIn>
 

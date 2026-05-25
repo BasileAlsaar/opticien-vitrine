@@ -32,13 +32,13 @@ export const metadata: Metadata = {
     "Maison Lestrange, opticien indépendant. Sélection de montures éditoriales, examen de vue clinique, atelier d'ajustement. Sur rendez-vous.",
   keywords: [
     "opticien",
+    "opticien indépendant",
+    "opticien Paris",
     "lunettes",
     "montures",
     "examen de vue",
+    "lunettes sur mesure",
     "solaire",
-    "Persol",
-    "Lindberg",
-    "Moscot",
   ],
   authors: [{ name: "Maison Lestrange" }],
   openGraph: {

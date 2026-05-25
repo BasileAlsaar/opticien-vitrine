@@ -1,9 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
 import { FadeIn } from "@/components/motion/FadeIn";
-import { IMG } from "@/lib/images";
 
 const TEASERS = [
   {
@@ -11,21 +9,24 @@ const TEASERS = [
     href: "/collections?cat=optique",
     title: "Pour le quotidien",
     desc: "Acétates italiens, titanes danois, charnières sans vis. Une lecture précise du regard.",
-    image: IMG.optique,
+    numeral: "I",
+    pieces: "5 pièces",
   },
   {
     label: "Solaire",
     href: "/collections?cat=solaire",
     title: "Sous la lumière",
     desc: "Verres minéraux, polarisations choisies, formes intemporelles tirées des archives.",
-    image: IMG.solaire,
+    numeral: "II",
+    pieces: "4 pièces",
   },
   {
     label: "Sur mesure",
     href: "/collections?cat=sur-mesure",
     title: "Façonnée pour vous",
     desc: "Une plaque d'acétate, six essayages, trois semaines. La monture qui vous va vraiment.",
-    image: IMG.surMesure,
+    numeral: "III",
+    pieces: "3 pièces",
   },
 ];
 
@@ -61,28 +62,37 @@ export function CollectionTeasers() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
           {TEASERS.map((t, i) => (
             <FadeIn key={t.label} delay={0.05 * i}>
-              <Link href={t.href} className="group block">
-                <div className="relative aspect-[4/5] overflow-hidden bg-line">
-                  <Image
-                    src={t.image.src}
-                    alt={t.image.alt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                  />
-                </div>
-                <div className="mt-6">
-                  <p className="eyebrow text-accent">{t.label}</p>
-                  <h3
-                    className="mt-3 font-serif text-2xl md:text-3xl text-ink"
-                    style={{ fontWeight: 400, letterSpacing: "-0.015em" }}
+              <Link
+                href={t.href}
+                className="group block h-full border border-line bg-ivory p-10 md:p-12 transition-colors hover:border-ink"
+              >
+                <div className="flex items-baseline justify-between">
+                  <span
+                    className="font-serif text-accent"
+                    style={{ fontSize: "3rem", fontWeight: 300, lineHeight: 1 }}
                   >
-                    {t.title}
-                  </h3>
-                  <p className="mt-3 text-ink-soft text-sm md:text-base leading-relaxed max-w-sm">
-                    {t.desc}
-                  </p>
+                    {t.numeral}
+                  </span>
+                  <span className="eyebrow text-ink-soft">{t.pieces}</span>
                 </div>
+
+                <p className="mt-10 eyebrow text-accent">{t.label}</p>
+                <h3
+                  className="mt-4 font-serif text-3xl md:text-4xl text-ink"
+                  style={{ fontWeight: 400, letterSpacing: "-0.02em" }}
+                >
+                  {t.title}
+                </h3>
+                <p className="mt-5 text-ink-soft text-base leading-relaxed">
+                  {t.desc}
+                </p>
+
+                <span
+                  className="mt-10 inline-block text-[11px] tracking-widest uppercase text-ink border-b border-ink pb-0.5 group-hover:text-accent group-hover:border-accent transition-colors"
+                  style={{ letterSpacing: "0.22em" }}
+                >
+                  Découvrir →
+                </span>
               </Link>
             </FadeIn>
           ))}

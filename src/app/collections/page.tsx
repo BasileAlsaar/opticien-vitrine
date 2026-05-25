@@ -6,7 +6,7 @@ import { ProductGrid } from "@/components/product/ProductGrid";
 export const metadata: Metadata = {
   title: "Collections",
   description:
-    "Notre sélection de montures optiques, solaires et sur-mesure. Persol, Lindberg, Moscot, Garrett Leight, Cutler & Gross, Mykita.",
+    "Notre sélection de montures optiques, solaires et sur-mesure. Pièces présentées en boutique, essayables sans rendez-vous.",
 };
 
 export default function CollectionsPage() {

@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 
 import { Container } from "@/components/layout/Container";
 import { FadeIn } from "@/components/motion/FadeIn";
-import { IMG } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "La maison",
@@ -37,30 +35,33 @@ export default function MaisonPage() {
         </Container>
       </section>
 
-      {/* Photo XXL */}
-      <section className="pt-12 pb-24 md:pb-32 bg-ivory">
+      {/* Bandeau typographique en remplacement de la photo façade */}
+      <section className="py-16 md:py-24 bg-cream">
         <Container>
           <FadeIn>
-            <div className="relative aspect-[16/9] md:aspect-[21/9] bg-line overflow-hidden">
-              <Image
-                src={IMG.facade.src}
-                alt={IMG.facade.alt}
-                fill
-                priority
-                sizes="(max-width: 768px) 100vw, 90vw"
-                className="object-cover"
-              />
+            <div className="border-y border-line py-12 md:py-16 text-center">
+              <p className="eyebrow text-ink-soft">L&apos;adresse</p>
+              <p
+                className="mt-6 font-serif text-ink text-balance"
+                style={{
+                  fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
+                  fontWeight: 300,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.05,
+                }}
+              >
+                14, rue de Verneuil — <span className="italic">Paris VII</span>
+              </p>
+              <p className="mt-6 text-ink-soft text-sm md:text-base">
+                Devanture d&apos;origine restaurée en 2014.
+              </p>
             </div>
-            <p className="mt-4 text-xs text-ink-soft italic">
-              14, rue de Verneuil, Paris VII. Devanture d&apos;origine
-              restaurée en 2014.
-            </p>
           </FadeIn>
         </Container>
       </section>
 
       {/* Longform 1 */}
-      <section className="pb-24 md:pb-32 bg-ivory">
+      <section className="py-24 md:py-32 bg-ivory">
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
             <div className="md:col-span-3">
@@ -83,11 +84,11 @@ export default function MaisonPage() {
               <FadeIn delay={0.1}>
                 <div className="mt-8 space-y-6 text-ink-soft text-base md:text-[17px] leading-[1.75]">
                   <p>
-                    Pierre Lestrange a appris le métier chez Boucheron
-                    optique, puis au Comptoir des lunetiers, avant de
-                    passer trois ans à l&apos;atelier Cartier. Il y a
-                    appris ce qu&apos;est une charnière, et pourquoi
-                    elle compte autant que le dessin.
+                    Pierre Lestrange a appris le métier dans plusieurs
+                    ateliers parisiens avant d&apos;ouvrir sa propre
+                    boutique. Il y a appris ce qu&apos;est une
+                    charnière, et pourquoi elle compte autant que le
+                    dessin.
                   </p>
                   <p>
                     La boutique en garde l&apos;empreinte&nbsp;:{" "}
@@ -134,44 +135,35 @@ export default function MaisonPage() {
         </Container>
       </section>
 
-      {/* Photo + texte 2 */}
+      {/* Longform 2 — sans photo, typographie + texte */}
       <section className="py-24 md:py-32 bg-ivory">
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center">
-            <FadeIn className="md:col-span-7 md:col-start-1">
-              <div className="relative aspect-[5/4] bg-line overflow-hidden">
-                <Image
-                  src={IMG.interieur.src}
-                  alt={IMG.interieur.alt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 60vw"
-                  className="object-cover"
-                />
-              </div>
-            </FadeIn>
-
-            <div className="md:col-span-4 md:col-start-9">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+            <div className="md:col-span-3">
               <FadeIn>
                 <p className="eyebrow text-accent">Chapitre II</p>
                 <p className="mt-3 font-serif text-lg text-ink italic">
                   La sélection
                 </p>
               </FadeIn>
-              <FadeIn delay={0.1}>
+            </div>
+            <div className="md:col-span-7 md:col-start-5 max-w-2xl">
+              <FadeIn>
                 <h2
-                  className="mt-6 font-serif text-3xl md:text-4xl text-ink"
+                  className="font-serif text-3xl md:text-4xl text-ink"
                   style={{ letterSpacing: "-0.02em", fontWeight: 400 }}
                 >
                   Cinquante pièces, pas une de plus.
                 </h2>
               </FadeIn>
-              <FadeIn delay={0.2}>
+              <FadeIn delay={0.1}>
                 <p className="mt-8 text-ink-soft text-base md:text-[17px] leading-[1.75]">
-                  On ne travaille qu&apos;avec des maisons dont on
-                  connaît l&apos;atelier&nbsp;: Lindberg à Aarhus, Mykita
-                  à Berlin, Garrett Leight à Los Angeles, Jacques Marie
-                  Mage à Hollywood. Chaque pièce a sa raison d&apos;être
-                  ici&nbsp;; aucune n&apos;est là par défaut.
+                  Nous ne travaillons qu&apos;avec des fabricants dont
+                  nous connaissons l&apos;atelier — européens et
+                  américains, indépendants pour la plupart. Chaque pièce
+                  a sa raison d&apos;être ici&nbsp;; aucune n&apos;est là
+                  par défaut. La liste complète des maisons partenaires
+                  est disponible en boutique.
                 </p>
               </FadeIn>
             </div>
