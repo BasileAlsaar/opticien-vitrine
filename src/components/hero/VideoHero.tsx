@@ -58,6 +58,9 @@ export function VideoHero() {
             preload="metadata"
             aria-hidden="true"
           >
+            {HERO_VIDEO.webm ? (
+              <source src={HERO_VIDEO.webm} type="video/webm" />
+            ) : null}
             <source src={HERO_VIDEO.mp4} type="video/mp4" />
           </video>
         ) : null}
