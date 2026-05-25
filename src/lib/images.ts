@@ -62,10 +62,10 @@ export const IMG = {
     height: 1200,
   },
 
-  // Page Services (lentille gros plan)
+  // Page Services (atelier alternatif, ID Pexels confirmé)
   lentille: {
-    src: px("1212466", 1800),
-    alt: "Verre optique en gros plan, reflets bleutés.",
+    src: px("9979858", 1800),
+    alt: "Outils et verres optiques disposés sur un comptoir en bois.",
     width: 1800,
     height: 1200,
   },
